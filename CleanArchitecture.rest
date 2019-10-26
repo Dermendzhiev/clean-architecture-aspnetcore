@@ -1,0 +1,58 @@
+@apiUrl = https://localhost:5001/api
+
+@pollPath = poll
+@votesPath = votes
+
+@pollId = 1
+
+### Create poll on social media accounts
+POST {{apiUrl}}/{{pollPath}}
+Content-Type: application/json
+
+{
+    "title": "Whihc of the following social media websites do you currently have an account with?",
+    "note": "(Check all that apply)",
+    "singleOptionLimitation": false,
+    "dueDate": "2020-02-15",
+    "options": ["Facebook", "Instagram", "Twitter", "LinkedIn", "Snapchat", "Google+", "Myspace"],
+    "participantEmailAddresses": ["josh@gmail.com", "sam@gmail.com"]
+}
+
+### Create poll on online shopping
+POST {{apiUrl}}/{{pollPath}}
+Content-Type: application/json
+
+{
+    "title": "How often do you buy products online?",
+    "singleOptionLimitation": true,
+    "dueDate": "2021-04-18",
+    "options": ["Extremely often", "Quite often", "Moderately often", "Slightly often", "SnapchatNot at all often", "Never"],
+    "participantEmailAddresses": ["ben@yahoo.com", "rob@gmail.com"]
+}
+
+### Get poll
+GET {{apiUrl}}/{{pollPath}}/{{pollId}}
+
+### Update poll
+PATCH {{apiUrl}}/{{pollPath}}/{{pollId}}
+Content-Type: application/json
+
+{
+    "title": "Which of the following social media websites do you currently have an account with?",
+    "dueDate": "2022-12-15"
+}
+
+### Delete poll
+DELETE {{apiUrl}}/{{pollPath}}/{{pollId}}
+
+### Get votes
+GET {{apiUrl}}/{{pollPath}}/{{pollId}}/{{votesPath}}
+
+### Vote
+PATCH {{apiUrl}}/{{pollPath}}/{{pollId}}/{{votesPath}}
+Content-Type: application/json
+
+{
+    "participantEmailAddress": "nikolay@gmail.com",
+    "options": [1, 2, 7]
+}
