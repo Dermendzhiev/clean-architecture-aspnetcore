@@ -7,9 +7,7 @@
     using CleanArchitecture.Application.Interfaces.Infrastructure;
     using CleanArchitecture.Application.UseCases;
     using CleanArchitecture.Domain.Entities;
-    using CleanArchitecture.Domain.SeedWork;
     using FakeItEasy;
-    using FluentAssertions;
     using Xunit;
 
     public class GetPollUseCaseTests
@@ -44,7 +42,7 @@
                         && m.Note == poll.Note 
                         && m.DueDate == poll.DueDate 
                         && m.SingleOptionLimitation == poll.SingleOptionLimitation)))
-                .MustHaveHappened();
+                .MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -59,18 +57,18 @@
             A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
-            IGetPollOutputBoundary getPollOutputBoundaryMock = A.Fake<IGetPollOutputBoundary>();
+            IGetPollOutputBoundary outputBoundaryMock = A.Fake<IGetPollOutputBoundary>();
 
             var useCase = new GetPollUseCase(loggerServiceStub, pollRepositoryStub);
 
             // Act
-            await useCase.HandleAsync(1, getPollOutputBoundaryMock);
+            await useCase.HandleAsync(pollId, outputBoundaryMock);
 
             // Assert
             A.CallTo(
-                () => getPollOutputBoundaryMock.NotFound(
+                () => outputBoundaryMock.NotFound(
                     A<string>.That.Contains(expectedResultMessage)))
-                .MustHaveHappened();
+                .MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -84,20 +82,20 @@
             A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
-            IGetPollOutputBoundary getPollOutputBoundaryStub = A.Fake<IGetPollOutputBoundary>();
+            IGetPollOutputBoundary outputBoundaryStub = A.Fake<IGetPollOutputBoundary>();
             ILoggerService<GetPollUseCase> loggerServiceMock = A.Fake<ILoggerService<GetPollUseCase>>();
 
             var useCase = new GetPollUseCase(loggerServiceMock, pollRepositoryStub);
 
             // Act
-            await useCase.HandleAsync(1, getPollOutputBoundaryStub);
+            await useCase.HandleAsync(pollId, outputBoundaryStub);
 
             // Assert
             A.CallTo(
                 () => loggerServiceMock.LogInformation(
                     A<string>.That.Contains(expectedLogMessage),
                     A<int>.That.IsEqualTo(pollId)))
-                .MustHaveHappened();
+                .MustHaveHappenedOnceExactly();
         }
 
         private Poll GetFakePoll(bool? singleOptionLimitation = true, DateTime? dueDate = default)
