@@ -22,7 +22,6 @@
             Poll poll = await this.pollRepository.GetAsync(id);
             if (poll is null)
             {
-
                 output.NotFound("Poll not found!");
                 this.loggerService.LogInformation("Cannot retrieve a poll with {@id}", id);
                 return;
