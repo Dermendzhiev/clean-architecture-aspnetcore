@@ -22,7 +22,7 @@
         {
             if (string.IsNullOrEmpty(text))
             {
-                throw new DomainException($"Title cannot be null or empty");
+                throw new DomainException($"Text cannot be null or empty");
             }
 
             this.Text = text;
