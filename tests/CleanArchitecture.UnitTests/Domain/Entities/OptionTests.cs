@@ -11,13 +11,13 @@
         [Fact]
         public void Initialize_WithValidData_ShouldCreateNewOption()
         {
-            // arrange
+            // Arrange
             const string text = "fake text";
 
-            // act
+            // Act
             var option = new Option(text);
 
-            // assert
+            // Assert
             option.Text.Should().Be(text);
             option.Votes.Should().NotBeNull();
         }
@@ -27,27 +27,27 @@
         [InlineData(null)]
         public void Initialize_WithInvalidText_ShouldThrowDomainException(string text)
         {
-            // arrange
+            // Arrange
             const string expectedExceptionMessage = "Text cannot be null or empty";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => new Option(text));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void SetText_WhenValidText_ShouldSetText()
         {
-            // arrange
+            // Arrange
             const string text = "new text";
             Option option = this.GetOption();
 
-            // act
+            // Act
             option.SetText(text);
 
-            // assert
+            // Assert
             option.Text.Should().Be(text);
         }
 
@@ -56,44 +56,44 @@
         [InlineData(null)]
         public void SetText_WhenNullOrEmptyText_ShouldThrowDomainException(string text)
         {
-            // arrange
+            // Arrange
             const string expectedExceptionMessage = "Text cannot be null or empty";
             Option option = this.GetOption();
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => option.SetText(text));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void AddVote_WithValidData_ShouldAddNewVote()
         {
-            // arrange
+            // Arrange
             const string participantEmailAddress = "test@gmail.com";
             Option option = this.GetOption();
 
-            // act
+            // Act
             option.AddVote(participantEmailAddress, DateTime.Now);
 
-            // assert
+            // Assert
             option.Votes.Count.Should().Be(1);
         }
 
         [Fact]
         public void AddVote_WithAlreadyExistingParticipant_ShouldThrowDomainException()
         {
-            // arrange
+            // Arrange
             const string participantEmailAddress = "test@gmail.com";
             Option option = this.GetOption();
             option.AddVote(participantEmailAddress, DateTime.Now);
             const string expectedExceptionMessage = "You have already voted for this poll";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => option.AddVote(participantEmailAddress, DateTime.Now));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 

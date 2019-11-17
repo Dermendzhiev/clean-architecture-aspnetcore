@@ -14,16 +14,16 @@
         [Fact]
         public void Initialize_WithValidData_ShouldCreateNewPoll()
         {
-            // arrange
+            // Arrange
             const string title = "fake title";
             const string note = "fake note";
             const bool singleOptionlimitation = true;
             DateTime dueDate = DateTime.Now.AddDays(1);
 
-            // act
+            // Act
             var poll = new Poll(title, note, singleOptionlimitation, dueDate);
 
-            // assert
+            // Assert
             poll.Title.Should().Be(title);
             poll.Note.Should().Be(note);
             poll.SingleOptionLimitation.Should().Be(singleOptionlimitation);
@@ -36,47 +36,47 @@
         [InlineData(null)]
         public void Initialize_WithInvalidTitle_ShouldThrowDomainException(string title)
         {
-            // arrange
+            // Arrange
             const string note = "fake note";
             const bool singleOptionlimitation = true;
             DateTime dueDate = DateTime.Now.AddDays(1);
             const string expectedExceptionMessage = "Title cannot be null or empty";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => new Poll(title, note, singleOptionlimitation, dueDate));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void Initialize_WhenDueDateInThePast_ShouldThrowDomainException()
         {
-            // arrange
+            // Arrange
             const string title = "fake title";
             const string note = "fake note";
             const bool singleOptionlimitation = true;
             DateTime dueDate = DateTime.Now.AddDays(-1);
             const string expectedExceptionMessage = "Cannot set due date in the past";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => new Poll(title, note, singleOptionlimitation, dueDate));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void SetTitle_WhenValidTitle_ShouldSetTitle()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             const string title = "new title";
 
-            // act
+            // Act
             poll.SetTitle(title);
 
-            // assert
+            // Assert
             poll.Title.Should().Be(title);
         }
 
@@ -85,59 +85,59 @@
         [InlineData(null)]
         public void SetTitle_WhenNullOrEmptyTitle_ShouldThrowDomainException(string title)
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             const string expectedExceptionMessage = "Title cannot be null or empty";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => poll.SetTitle(title));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void SetDueDate_WhenValidDueDate_ShouldSetDueDate()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             DateTime dueDate = DateTime.Now.AddDays(1);
 
-            // act
+            // Act
             poll.SetDueDate(dueDate);
 
-            // assert
+            // Assert
             poll.DueDate.Should().Be(dueDate);
         }
 
         [Fact]
         public void SetDueDate_WhenDueDateInThePast_ShouldThrowDomainException()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             string expectedExceptionMessage = "Cannot set due date in the past";
             DateTime invalidDueDate = DateTime.Now.AddDays(-1);
             SystemTime.Set(DateTime.Now.AddDays(1));
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => poll.SetDueDate(invalidDueDate));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void AddOption_WhenValidOption_MustAddOption()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             string optionText = "fake text";
             int expectedResult = 1;
 
-            // act
+            // Act
             poll.AddOption(optionText);
 
-            // assert
+            // Assert
             poll.Options.Count.Should().Be(expectedResult);
         }
 
@@ -146,75 +146,75 @@
         [InlineData(null)]
         public void AddOption_WhenNullOrEmptyTitle_ShouldThrowDomainException(string option)
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             const string expectedExceptionMessage = "Option cannot be null or empty";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => poll.AddOption(option));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void Vote_WithValidData_MustVoteForOption()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             poll.AddOption("test option text");
             var optionIds = new List<int> { poll.Options.First().Id };
 
-            // act
+            // Act
             poll.Vote(null, optionIds, default);
 
-            // assert
+            // Assert
             poll.Options.First().Votes.Count.Should().Be(1);
         }
 
         [Fact]
         public void Vote_ForMultipleOptionsWhenLimitated_ShouldThrowDomainException()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll(true);
             var optionIds = new List<int> { 1, 2 };
             const string expectedExceptionMessage = "Cannot vote for more than 1 options";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => poll.Vote(null, optionIds, default));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void Vote_WhenPollHasExpired_ShouldThrowDomainException()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             var optionIds = new List<int> { 1 };
             SystemTime.Set(DateTime.Now.AddDays(1));
             const string expectedExceptionMessage = "Poll has expired";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => poll.Vote(null, optionIds, default));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
         [Fact]
         public void Vote_WhenOptionIsInvalid_ShouldThrowDomainException()
         {
-            // arrange
+            // Arrange
             Poll poll = this.GetPoll();
             var optionIds = new List<int> { 1 };
             const string expectedExceptionMessage = "Option with id 1 doesn't exist";
 
-            // act
+            // Act
             DomainException actualException = Assert.Throws<DomainException>(() => poll.Vote(null, optionIds, default));
 
-            // assert
+            // Assert
             actualException.Message.Should().Contain(expectedExceptionMessage);
         }
 
