@@ -1,11 +1,8 @@
 ﻿namespace CleanArchitecture.UnitTests.Domain.Entities
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using CleanArchitecture.Domain.Entities;
     using CleanArchitecture.Domain.SeedWork;
-    using CleanArchitecture.Domain.SharedKernel;
     using FluentAssertions;
     using Xunit;
 
