@@ -27,7 +27,7 @@
                 return;
             }
 
-            output.Success(new GetPollOutput(poll.Title, poll.Note, poll.DueDate, poll.SingleOptionLimitation, poll.Options));
+            output.Success(new GetPollOutput(poll.Id, poll.Title, poll.Note, poll.DueDate, poll.SingleOptionLimitation, poll.Options));
         }
     }
 }

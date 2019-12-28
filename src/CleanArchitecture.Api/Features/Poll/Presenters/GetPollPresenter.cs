@@ -23,6 +23,7 @@
 
             var response = new GetPollResponse
             {
+                Id = output.Id,
                 Title = output.Title,
                 Note = output.Note,
                 DueDate = output.DueDate,

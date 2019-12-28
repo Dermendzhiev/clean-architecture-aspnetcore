@@ -6,14 +6,17 @@
 
     public class GetPollOutput
     {
-        public GetPollOutput(string title, string note, DateTime dueDate, bool singleOptionLimitation, IReadOnlyCollection<Option> options)
+        public GetPollOutput(int id, string title, string note, DateTime dueDate, bool singleOptionLimitation, IReadOnlyCollection<Option> options)
         {
+            this.Id = id;
             this.Title = title;
             this.Note = note;
             this.DueDate = dueDate;
             this.SingleOptionLimitation = singleOptionLimitation;
             this.Options = options;
         }
+
+        public int Id { get; }
 
         public string Title { get; }
 
