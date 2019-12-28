@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CleanArchitecture.Api": {
+    "Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "",
