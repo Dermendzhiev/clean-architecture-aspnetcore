@@ -21,7 +21,7 @@
             Poll poll = this.GetFakePoll();
             poll.AddOption("test option");
 
-            var expectedGetPollOutput = new GetPollOutput(poll.Title, poll.Note, poll.DueDate, poll.SingleOptionLimitation, poll.Options);
+            var expectedGetPollOutput = new GetPollOutput(poll.Id, poll.Title, poll.Note, poll.DueDate, poll.SingleOptionLimitation, poll.Options);
 
             IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
             A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
