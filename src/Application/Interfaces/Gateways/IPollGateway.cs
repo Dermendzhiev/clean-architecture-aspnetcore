@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
     using CleanArchitecture.Domain.Entities;
 
-    public interface IPollRepository
+    public interface IPollGateway
     {
         Task<Poll> GetAsync(int id);
 

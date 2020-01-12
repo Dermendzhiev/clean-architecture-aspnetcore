@@ -11,13 +11,13 @@
     {
         private readonly ILoggerService<CreatePollUseCase> loggerService;
         private readonly IEmailSender emailSender;
-        private readonly IPollRepository pollRepository;
+        private readonly IPollGateway pollGateway;
 
-        public CreatePollUseCase(ILoggerService<CreatePollUseCase> loggerService, IEmailSender emailSender, IPollRepository pollRepository)
+        public CreatePollUseCase(ILoggerService<CreatePollUseCase> loggerService, IEmailSender emailSender, IPollGateway pollGateway)
         {
             this.loggerService = loggerService;
             this.emailSender = emailSender;
-            this.pollRepository = pollRepository;
+            this.pollGateway = pollGateway;
         }
 
         public async Task HandleAsync(CreatePollInput input, ICreatePollOutputBoundary output)
@@ -31,7 +31,7 @@
                     poll.AddOption(option);
                 }
 
-                await this.pollRepository.CreateAsync(poll);
+                await this.pollGateway.CreateAsync(poll);
                 await this.emailSender.SendAsync("SUBJECT", "PLAIN_TEXT_CONTENT", input.ParticipantEmailAddresses);
 
                 output.Success(new CreatePollOutput(poll.Id));

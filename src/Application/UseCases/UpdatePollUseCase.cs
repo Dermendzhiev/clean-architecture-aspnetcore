@@ -10,19 +10,19 @@
     public class UpdatePollUseCase : IUpdatePollIntputBoundary
     {
         private readonly ILoggerService<UpdatePollUseCase> loggerService;
-        private readonly IPollRepository pollRepository;
+        private readonly IPollGateway pollGateway;
 
-        public UpdatePollUseCase(ILoggerService<UpdatePollUseCase> loggerService, IPollRepository pollRepository)
+        public UpdatePollUseCase(ILoggerService<UpdatePollUseCase> loggerService, IPollGateway pollGateway)
         {
             this.loggerService = loggerService;
-            this.pollRepository = pollRepository;
+            this.pollGateway = pollGateway;
         }
 
         public async Task HandleAsync(UpdatePollInput input, IUpdatePollOutputBoundary output)
         {
             try
             {
-                Poll poll = await this.pollRepository.GetAsync(input.Id);
+                Poll poll = await this.pollGateway.GetAsync(input.Id);
                 if (poll is null)
                 {
                     output.NotFound("Poll not found!");
@@ -33,7 +33,7 @@
                 poll.SetTitle(input.Title);
                 poll.SetDueDate(input.DueDate);
 
-                await this.pollRepository.UpdateAsync(poll);
+                await this.pollGateway.UpdateAsync(poll);
 
                 output.Success();
             }

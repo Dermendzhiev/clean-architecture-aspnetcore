@@ -6,11 +6,11 @@
     using CleanArchitecture.Domain.Entities;
     using Microsoft.EntityFrameworkCore;
 
-    public class PollRepository : IPollRepository
+    public class PollGateway : IPollGateway
     {
         private readonly CleanArchitectureDbContext dbContext;
 
-        public PollRepository(CleanArchitectureDbContext dbContext) => this.dbContext = dbContext;
+        public PollGateway(CleanArchitectureDbContext dbContext) => this.dbContext = dbContext;
 
         public Task CreateAsync(Poll poll)
         {

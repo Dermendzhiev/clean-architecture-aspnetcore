@@ -9,17 +9,17 @@
     public class GetPollUseCase : IGetPollInputBoundary
     {
         private readonly ILoggerService<GetPollUseCase> loggerService;
-        private readonly IPollRepository pollRepository;
+        private readonly IPollGateway pollGateway;
 
-        public GetPollUseCase(ILoggerService<GetPollUseCase> loggerService, IPollRepository pollRepository)
+        public GetPollUseCase(ILoggerService<GetPollUseCase> loggerService, IPollGateway pollGateway)
         {
             this.loggerService = loggerService;
-            this.pollRepository = pollRepository;
+            this.pollGateway = pollGateway;
         }
 
         public async Task HandleAsync(int id, IGetPollOutputBoundary output)
         {
-            Poll poll = await this.pollRepository.GetAsync(id);
+            Poll poll = await this.pollGateway.GetAsync(id);
             if (poll is null)
             {
                 output.NotFound("Poll not found");

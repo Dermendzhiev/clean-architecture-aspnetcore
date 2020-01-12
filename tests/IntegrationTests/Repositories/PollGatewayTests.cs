@@ -10,7 +10,7 @@
     using Microsoft.EntityFrameworkCore;
     using Xunit;
 
-    public class PollRepositoryTests
+    public class PollGatewayTests
     {
         [Fact]
         public void Add_Poll_To_Database()
@@ -37,8 +37,8 @@
                 // Run the test against one instance of the context
                 using (var context = new CleanArchitectureDbContext(options))
                 {
-                    var pollRepository = new PollRepository(context);
-                    pollRepository.CreateAsync(poll);
+                    var pollGateway = new PollGateway(context);
+                    pollGateway.CreateAsync(poll);
                     context.SaveChanges();
                 }
 

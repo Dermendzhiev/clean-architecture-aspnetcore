@@ -23,13 +23,13 @@
 
             var expectedGetPollOutput = new GetPollOutput(poll.Id, poll.Title, poll.Note, poll.DueDate, poll.SingleOptionLimitation, poll.Options);
 
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns(poll);
 
             IGetPollOutputBoundary getPollOutputBoundaryMock = A.Fake<IGetPollOutputBoundary>();
 
-            var useCase = new GetPollUseCase(null, pollRepositoryStub);
+            var useCase = new GetPollUseCase(null, pollGatewayStub);
 
             // Act
             await useCase.HandleAsync(pollId, getPollOutputBoundaryMock);
@@ -53,13 +53,13 @@
             const string expectedResultMessage = "Poll not found";
 
             ILoggerService<GetPollUseCase> loggerServiceStub = A.Fake<ILoggerService<GetPollUseCase>>();
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
             IGetPollOutputBoundary outputBoundaryMock = A.Fake<IGetPollOutputBoundary>();
 
-            var useCase = new GetPollUseCase(loggerServiceStub, pollRepositoryStub);
+            var useCase = new GetPollUseCase(loggerServiceStub, pollGatewayStub);
 
             // Act
             await useCase.HandleAsync(pollId, outputBoundaryMock);
@@ -78,14 +78,14 @@
             const int pollId = 1;
             const string expectedLogMessage = "Cannot retrieve a poll with {@id}";
 
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
             IGetPollOutputBoundary outputBoundaryStub = A.Fake<IGetPollOutputBoundary>();
             ILoggerService<GetPollUseCase> loggerServiceMock = A.Fake<ILoggerService<GetPollUseCase>>();
 
-            var useCase = new GetPollUseCase(loggerServiceMock, pollRepositoryStub);
+            var useCase = new GetPollUseCase(loggerServiceMock, pollGatewayStub);
 
             // Act
             await useCase.HandleAsync(pollId, outputBoundaryStub);

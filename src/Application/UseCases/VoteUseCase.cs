@@ -10,13 +10,13 @@
     public class VoteUseCase : IVoteInputBoundary
     {
         private readonly ILoggerService<VoteUseCase> loggerService;
-        private readonly IPollRepository pollRepository;
+        private readonly IPollGateway pollGateway;
         private readonly IDateTime dateTime;
 
-        public VoteUseCase(ILoggerService<VoteUseCase> loggerService, IPollRepository pollRepository, IDateTime dateTime)
+        public VoteUseCase(ILoggerService<VoteUseCase> loggerService, IPollGateway pollGateway, IDateTime dateTime)
         {
             this.loggerService = loggerService;
-            this.pollRepository = pollRepository;
+            this.pollGateway = pollGateway;
             this.dateTime = dateTime;
         }
 
@@ -24,7 +24,7 @@
         {
             try
             {
-                Poll poll = await this.pollRepository.GetAsync(input.Id);
+                Poll poll = await this.pollGateway.GetAsync(input.Id);
                 if (poll is null)
                 {
                     output.NotFound("Poll not found!");
@@ -34,7 +34,7 @@
 
                 poll.Vote(input.ParticipantEmailAddress, input.Options, this.dateTime.UtcNow);
 
-                await this.pollRepository.UpdateAsync(poll);
+                await this.pollGateway.UpdateAsync(poll);
 
                 output.Success();
             }

@@ -19,13 +19,13 @@
             const int pollId = 1;
             Poll poll = this.GetFakePoll();
 
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns(poll);
 
             IDeletePollOutputBoundary outputBoundaryMock = A.Fake<IDeletePollOutputBoundary>();
 
-            var useCase = new DeletePollUseCase(null, pollRepositoryStub);
+            var useCase = new DeletePollUseCase(null, pollGatewayStub);
 
             // Act
             await useCase.HandleAsync(pollId, outputBoundaryMock);
@@ -41,19 +41,19 @@
             const int pollId = 1;
             Poll poll = this.GetFakePoll();
 
-            IPollRepository pollRepositoryMock = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryMock.GetAsync(pollId))
+            IPollGateway pollGatewayMock = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayMock.GetAsync(pollId))
                 .Returns(poll);
 
             IDeletePollOutputBoundary outputBoundaryStub = A.Fake<IDeletePollOutputBoundary>();
 
-            var useCase = new DeletePollUseCase(null, pollRepositoryMock);
+            var useCase = new DeletePollUseCase(null, pollGatewayMock);
 
             // Act
             await useCase.HandleAsync(pollId, outputBoundaryStub);
 
             // Assert
-            A.CallTo(() => pollRepositoryMock.DeleteAsync(poll)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => pollGatewayMock.DeleteAsync(poll)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -64,13 +64,13 @@
             const string expectedResultMessage = "Poll not found";
 
             ILoggerService<DeletePollUseCase> loggerServiceStub = A.Fake<ILoggerService<DeletePollUseCase>>();
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
             IDeletePollOutputBoundary outputBoundaryMock = A.Fake<IDeletePollOutputBoundary>();
 
-            var useCase = new DeletePollUseCase(loggerServiceStub, pollRepositoryStub);
+            var useCase = new DeletePollUseCase(loggerServiceStub, pollGatewayStub);
 
             // Act
             await useCase.HandleAsync(pollId, outputBoundaryMock);
@@ -89,14 +89,14 @@
             const int pollId = 1;
             const string expectedLogMessage = "Cannot retrieve a poll with {@id}";
 
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
-            A.CallTo(() => pollRepositoryStub.GetAsync(pollId))
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
+            A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
             IDeletePollOutputBoundary outputBoundaryStub = A.Fake<IDeletePollOutputBoundary>();
             ILoggerService<DeletePollUseCase> loggerServiceMock = A.Fake<ILoggerService<DeletePollUseCase>>();
 
-            var useCase = new DeletePollUseCase(loggerServiceMock, pollRepositoryStub);
+            var useCase = new DeletePollUseCase(loggerServiceMock, pollGatewayStub);
 
             // Act
             await useCase.HandleAsync(pollId, outputBoundaryStub);

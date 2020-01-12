@@ -26,7 +26,7 @@
             services.AddTransient(typeof(ILoggerService<>), typeof(LoggerService<>));
 
             // Gateways:
-            services.AddScoped<IPollRepository, PollRepository>();
+            services.AddScoped<IPollGateway, PollGateway>();
 
             // Use cases:
             services.AddScoped<ICreatePollInputBoundary, CreatePollUseCase>();

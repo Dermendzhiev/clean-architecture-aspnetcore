@@ -19,11 +19,11 @@
         {
             // Arrange
             IEmailSender emailSenderStub = A.Fake<IEmailSender>();
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
 
             ICreatePollOutputBoundary outputBoundaryMock = A.Fake<ICreatePollOutputBoundary>();
 
-            var useCase = new CreatePollUseCase(null, emailSenderStub, pollRepositoryStub);
+            var useCase = new CreatePollUseCase(null, emailSenderStub, pollGatewayStub);
             CreatePollInput input = GetValidCreatePollInput();
 
             // Act
@@ -43,16 +43,16 @@
             IEmailSender emailSenderStub = A.Fake<IEmailSender>();
             ICreatePollOutputBoundary outputBoundaryStub = A.Fake<ICreatePollOutputBoundary>();
 
-            IPollRepository pollRepositoryMock = A.Fake<IPollRepository>();
+            IPollGateway pollGatewayMock = A.Fake<IPollGateway>();
 
-            var useCase = new CreatePollUseCase(null, emailSenderStub, pollRepositoryMock);
+            var useCase = new CreatePollUseCase(null, emailSenderStub, pollGatewayMock);
             CreatePollInput input = GetValidCreatePollInput();
 
             // Act
             await useCase.HandleAsync(input, outputBoundaryStub);
 
             // Assert
-            A.CallTo(() => pollRepositoryMock.CreateAsync(
+            A.CallTo(() => pollGatewayMock.CreateAsync(
                 A<Poll>.That.Matches(
                     p => p.Title == input.Title
                     && p.Note == input.Note
@@ -66,12 +66,12 @@
         public async Task HandleAsync_WithValidPoll_ShouldSendEmail()
         {
             // Arrange
-            IPollRepository pollRepositoryStub = A.Fake<IPollRepository>();
+            IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
             ICreatePollOutputBoundary outputBoundaryStub = A.Fake<ICreatePollOutputBoundary>();
 
             IEmailSender emailSenderMock = A.Fake<IEmailSender>();
 
-            var useCase = new CreatePollUseCase(null, emailSenderMock, pollRepositoryStub);
+            var useCase = new CreatePollUseCase(null, emailSenderMock, pollGatewayStub);
             CreatePollInput input = GetValidCreatePollInput();
 
             // Act

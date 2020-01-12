@@ -9,17 +9,17 @@
     public class DeletePollUseCase : IDeletePollIntputBoundary
     {
         private readonly ILoggerService<DeletePollUseCase> loggerService;
-        private readonly IPollRepository pollRepository;
+        private readonly IPollGateway pollGateway;
 
-        public DeletePollUseCase(ILoggerService<DeletePollUseCase> loggerService, IPollRepository pollRepository)
+        public DeletePollUseCase(ILoggerService<DeletePollUseCase> loggerService, IPollGateway pollGateway)
         {
             this.loggerService = loggerService;
-            this.pollRepository = pollRepository;
+            this.pollGateway = pollGateway;
         }
 
         public async Task HandleAsync(int id, IDeletePollOutputBoundary output)
         {
-            Poll poll = await this.pollRepository.GetAsync(id);
+            Poll poll = await this.pollGateway.GetAsync(id);
             if (poll is null)
             {
                 output.NotFound("Poll not found");
@@ -27,7 +27,7 @@
                 return;
             }
 
-            await this.pollRepository.DeleteAsync(poll);
+            await this.pollGateway.DeleteAsync(poll);
             output.Success();
         }
     }

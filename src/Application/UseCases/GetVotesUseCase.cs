@@ -11,19 +11,19 @@
     public class GetVotesUseCase : IGetVotesInputBoundary
     {
         private readonly ILoggerService<GetVotesUseCase> loggerService;
-        private readonly IPollRepository pollRepository;
+        private readonly IPollGateway pollGateway;
 
-        public GetVotesUseCase(ILoggerService<GetVotesUseCase> loggerService, IPollRepository pollRepository)
+        public GetVotesUseCase(ILoggerService<GetVotesUseCase> loggerService, IPollGateway pollGateway)
         {
             this.loggerService = loggerService;
-            this.pollRepository = pollRepository;
+            this.pollGateway = pollGateway;
         }
 
         public async Task HandleAsync(int id, IGetVotesOutputBoundary output)
         {
             try
             {
-                Poll poll = await this.pollRepository.GetAsync(id);
+                Poll poll = await this.pollGateway.GetAsync(id);
                 if (poll is null)
                 {
                     output.NotFound("Poll not found!");
