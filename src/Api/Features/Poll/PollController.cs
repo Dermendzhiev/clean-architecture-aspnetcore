@@ -20,61 +20,61 @@
     [ApiController]
     public class PollController : ControllerBase
     {
-        private readonly IGetPollInputBoundary getPollInputBoundary;
+        private readonly IGetPollInputPort getPollInputPort;
         private readonly GetPollPresenter getPollPresenter;
 
-        private readonly ICreatePollInputBoundary createPollInputBoundary;
+        private readonly ICreatePollInputPort createPollInputPort;
         private readonly CreatePollPresenter createPollPresenter;
 
-        private readonly IUpdatePollIntputBoundary updatePollInputBoundary;
+        private readonly IUpdatePollIntputPort updatePollInputPort;
         private readonly UpdatePollPresenter updatePollPresenter;
 
-        private readonly IDeletePollIntputBoundary deletePollInputBoundary;
+        private readonly IDeletePollIntputPort deletePollInputPort;
         private readonly DeletePollPresenter deletePollPresenter;
 
-        private readonly IGetVotesInputBoundary getVotesInputBoundary;
+        private readonly IGetVotesInputPort getVotesInputPort;
         private readonly GetVotesPresenter getVotesPresenter;
 
-        private readonly IVoteInputBoundary voteInputBoundary;
+        private readonly IVoteInputPort voteInputPort;
         private readonly VotePresenter votePresenter;
 
         public PollController(
-            IGetPollInputBoundary getPollInputBoundary,
+            IGetPollInputPort getPollInputPort,
             GetPollPresenter getPollPresenter,
-            ICreatePollInputBoundary createPollInputBoundary,
+            ICreatePollInputPort createPollInputPort,
             CreatePollPresenter createPollPresenter,
-            IUpdatePollIntputBoundary updatePollInputBoundary,
+            IUpdatePollIntputPort updatePollInputPort,
             UpdatePollPresenter updatePollPresenter,
-            IDeletePollIntputBoundary deletePollInputBoundary,
+            IDeletePollIntputPort deletePollInputPort,
             DeletePollPresenter deletePollPresenter,
-            IGetVotesInputBoundary getVotesInputBoundary,
+            IGetVotesInputPort getVotesInputPort,
             GetVotesPresenter getVotesPresenter,
-            IVoteInputBoundary voteInputBoundary,
+            IVoteInputPort voteInputPort,
             VotePresenter postVotePresenter)
         {
-            this.getPollInputBoundary = getPollInputBoundary;
+            this.getPollInputPort = getPollInputPort;
             this.getPollPresenter = getPollPresenter;
 
-            this.createPollInputBoundary = createPollInputBoundary;
+            this.createPollInputPort = createPollInputPort;
             this.createPollPresenter = createPollPresenter;
 
-            this.updatePollInputBoundary = updatePollInputBoundary;
+            this.updatePollInputPort = updatePollInputPort;
             this.updatePollPresenter = updatePollPresenter;
 
-            this.deletePollInputBoundary = deletePollInputBoundary;
+            this.deletePollInputPort = deletePollInputPort;
             this.deletePollPresenter = deletePollPresenter;
 
-            this.getVotesInputBoundary = getVotesInputBoundary;
+            this.getVotesInputPort = getVotesInputPort;
             this.getVotesPresenter = getVotesPresenter;
 
-            this.voteInputBoundary = voteInputBoundary;
+            this.voteInputPort = voteInputPort;
             this.votePresenter = postVotePresenter;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetPollResponse>> GetPoll(int id)
         {
-            await this.getPollInputBoundary.HandleAsync(id, this.getPollPresenter);
+            await this.getPollInputPort.HandleAsync(id, this.getPollPresenter);
             return this.getPollPresenter.ViewModel;
         }
 
@@ -82,7 +82,7 @@
         public async Task<IActionResult> CreatePoll(CreatePollRequest request)
         {
             var createPollInput = new CreatePollInput(request.Title, request.Note, request.SingleOptionLimitation, request.DueDate, request.Options, request.ParticipantEmailAddresses);
-            await this.createPollInputBoundary.HandleAsync(createPollInput, this.createPollPresenter);
+            await this.createPollInputPort.HandleAsync(createPollInput, this.createPollPresenter);
             return this.createPollPresenter.ViewModel;
         }
 
@@ -90,21 +90,21 @@
         public async Task<IActionResult> UpdatePoll(int id, UpdatePollRequest request)
         {
             var updatePollInput = new UpdatePollInput(id, request.Title, request.DueDate);
-            await this.updatePollInputBoundary.HandleAsync(updatePollInput, this.updatePollPresenter);
+            await this.updatePollInputPort.HandleAsync(updatePollInput, this.updatePollPresenter);
             return this.updatePollPresenter.ViewModel;
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePoll(int id)
         {
-            await this.deletePollInputBoundary.HandleAsync(id, this.deletePollPresenter);
+            await this.deletePollInputPort.HandleAsync(id, this.deletePollPresenter);
             return this.deletePollPresenter.ViewModel;
         }
 
         [HttpGet("{id}/votes")]
         public async Task<ActionResult<GetVotesResponse>> GetVotes(int id)
         {
-            await this.getVotesInputBoundary.HandleAsync(id, this.getVotesPresenter);
+            await this.getVotesInputPort.HandleAsync(id, this.getVotesPresenter);
             return this.getVotesPresenter.ViewModel;
         }
 
@@ -112,7 +112,7 @@
         public async Task<IActionResult> Vote(int id, VoteRequest request)
         {
             var createVoteInput = new VoteInput(id, request.ParticipantEmailAddress, request.Options);
-            await this.voteInputBoundary.HandleAsync(createVoteInput, this.votePresenter);
+            await this.voteInputPort.HandleAsync(createVoteInput, this.votePresenter);
             return this.votePresenter.ViewModel;
         }
     }

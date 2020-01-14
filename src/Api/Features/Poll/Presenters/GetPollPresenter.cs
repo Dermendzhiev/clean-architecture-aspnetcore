@@ -5,7 +5,7 @@
     using CleanArchitecture.Application.Boundaries.GetPoll;
     using Microsoft.AspNetCore.Mvc;
 
-    public class GetPollPresenter : IGetPollOutputBoundary
+    public class GetPollPresenter : IGetPollOutputPort
     {
         public ActionResult<GetPollResponse> ViewModel { get; private set; }
 

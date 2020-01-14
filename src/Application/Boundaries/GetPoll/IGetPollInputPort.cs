@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    public interface IGetPollInputBoundary
+    public interface IGetPollInputPort
     {
-        Task HandleAsync(int input, IGetPollOutputBoundary output);
+        Task HandleAsync(int input, IGetPollOutputPort output);
     }
 }

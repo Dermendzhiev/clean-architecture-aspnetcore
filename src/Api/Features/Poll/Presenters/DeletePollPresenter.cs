@@ -3,7 +3,7 @@
     using CleanArchitecture.Application.Boundaries.DeletePoll;
     using Microsoft.AspNetCore.Mvc;
 
-    public class DeletePollPresenter : IDeletePollOutputBoundary
+    public class DeletePollPresenter : IDeletePollOutputPort
     {
         public IActionResult ViewModel { get; private set; }
 

@@ -6,7 +6,7 @@
     using CleanArchitecture.Application.Interfaces.Infrastructure;
     using CleanArchitecture.Domain.Entities;
 
-    public class GetPollUseCase : IGetPollInputBoundary
+    public class GetPollUseCase : IGetPollInputPort
     {
         private readonly ILoggerService<GetPollUseCase> loggerService;
         private readonly IPollGateway pollGateway;
@@ -17,7 +17,7 @@
             this.pollGateway = pollGateway;
         }
 
-        public async Task HandleAsync(int id, IGetPollOutputBoundary output)
+        public async Task HandleAsync(int id, IGetPollOutputPort output)
         {
             Poll poll = await this.pollGateway.GetAsync(id);
             if (poll is null)

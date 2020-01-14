@@ -6,7 +6,7 @@
     using CleanArchitecture.Application.Interfaces.Infrastructure;
     using CleanArchitecture.Domain.Entities;
 
-    public class DeletePollUseCase : IDeletePollIntputBoundary
+    public class DeletePollUseCase : IDeletePollIntputPort
     {
         private readonly ILoggerService<DeletePollUseCase> loggerService;
         private readonly IPollGateway pollGateway;
@@ -17,7 +17,7 @@
             this.pollGateway = pollGateway;
         }
 
-        public async Task HandleAsync(int id, IDeletePollOutputBoundary output)
+        public async Task HandleAsync(int id, IDeletePollOutputPort output)
         {
             Poll poll = await this.pollGateway.GetAsync(id);
             if (poll is null)

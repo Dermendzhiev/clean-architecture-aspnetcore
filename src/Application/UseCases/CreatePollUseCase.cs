@@ -7,7 +7,7 @@
     using CleanArchitecture.Application.Interfaces.Infrastructure;
     using CleanArchitecture.Domain.SeedWork;
 
-    public class CreatePollUseCase : ICreatePollInputBoundary
+    public class CreatePollUseCase : ICreatePollInputPort
     {
         private readonly ILoggerService<CreatePollUseCase> loggerService;
         private readonly IEmailSender emailSender;
@@ -20,7 +20,7 @@
             this.pollGateway = pollGateway;
         }
 
-        public async Task HandleAsync(CreatePollInput input, ICreatePollOutputBoundary output)
+        public async Task HandleAsync(CreatePollInput input, ICreatePollOutputPort output)
         {
             try
             {

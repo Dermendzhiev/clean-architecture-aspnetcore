@@ -7,7 +7,7 @@
     using CleanArchitecture.Application.Boundaries.Vote;
     using CleanArchitecture.Domain.SeedWork;
 
-    public class VoteUseCase : IVoteInputBoundary
+    public class VoteUseCase : IVoteInputPort
     {
         private readonly ILoggerService<VoteUseCase> loggerService;
         private readonly IPollGateway pollGateway;
@@ -20,7 +20,7 @@
             this.dateTime = dateTime;
         }
 
-        public async Task HandleAsync(VoteInput input, IVoteOutputBoundary output)
+        public async Task HandleAsync(VoteInput input, IVoteOutputPort output)
         {
             try
             {

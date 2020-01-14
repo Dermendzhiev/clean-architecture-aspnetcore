@@ -3,7 +3,7 @@
     using CleanArchitecture.Application.Boundaries.CreatePoll;
     using Microsoft.AspNetCore.Mvc;
 
-    public class CreatePollPresenter : ICreatePollOutputBoundary
+    public class CreatePollPresenter : ICreatePollOutputPort
     {
         public IActionResult ViewModel { get; private set; }
 

@@ -5,7 +5,7 @@
     using CleanArchitecture.Application.Boundaries.GetVotes;
     using Microsoft.AspNetCore.Mvc;
 
-    public class GetVotesPresenter : IGetVotesOutputBoundary
+    public class GetVotesPresenter : IGetVotesOutputPort
     {
         public ActionResult<GetVotesResponse> ViewModel { get; private set; }
 

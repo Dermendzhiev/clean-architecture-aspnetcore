@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    public interface IGetVotesInputBoundary
+    public interface IGetVotesInputPort
     {
-        Task HandleAsync(int input, IGetVotesOutputBoundary output);
+        Task HandleAsync(int input, IGetVotesOutputPort output);
     }
 }

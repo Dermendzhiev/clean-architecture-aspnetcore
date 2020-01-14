@@ -3,7 +3,7 @@
     using CleanArchitecture.Application.Boundaries.UpdatePoll;
     using Microsoft.AspNetCore.Mvc;
 
-    public class UpdatePollPresenter : IUpdatePollOutputBoundary
+    public class UpdatePollPresenter : IUpdatePollOutputPort
     {
         public IActionResult ViewModel { get; private set; }
 

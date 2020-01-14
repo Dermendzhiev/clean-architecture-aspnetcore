@@ -7,7 +7,7 @@
     using CleanArchitecture.Domain.SeedWork;
     using CleanArchitecture.Application.Interfaces.Infrastructure;
 
-    public class UpdatePollUseCase : IUpdatePollIntputBoundary
+    public class UpdatePollUseCase : IUpdatePollIntputPort
     {
         private readonly ILoggerService<UpdatePollUseCase> loggerService;
         private readonly IPollGateway pollGateway;
@@ -18,7 +18,7 @@
             this.pollGateway = pollGateway;
         }
 
-        public async Task HandleAsync(UpdatePollInput input, IUpdatePollOutputBoundary output)
+        public async Task HandleAsync(UpdatePollInput input, IUpdatePollOutputPort output)
         {
             try
             {

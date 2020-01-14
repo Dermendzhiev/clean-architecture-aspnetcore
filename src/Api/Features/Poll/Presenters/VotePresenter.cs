@@ -3,7 +3,7 @@
     using CleanArchitecture.Application.Boundaries.Vote;
     using Microsoft.AspNetCore.Mvc;
 
-    public class VotePresenter : IVoteOutputBoundary
+    public class VotePresenter : IVoteOutputPort
     {
         public IActionResult ViewModel { get; private set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace CleanArchitecture.Application.Boundaries.GetVotes
 {
-    public interface IGetVotesOutputBoundary
+    public interface IGetVotesOutputPort
     {
         void Success(GetVotesOutput output);
 

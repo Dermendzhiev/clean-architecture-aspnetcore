@@ -23,15 +23,15 @@
             A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns(poll);
 
-            IDeletePollOutputBoundary outputBoundaryMock = A.Fake<IDeletePollOutputBoundary>();
+            IDeletePollOutputPort OutputPortMock = A.Fake<IDeletePollOutputPort>();
 
             var useCase = new DeletePollUseCase(null, pollGatewayStub);
 
             // Act
-            await useCase.HandleAsync(pollId, outputBoundaryMock);
+            await useCase.HandleAsync(pollId, OutputPortMock);
 
             // Assert
-            A.CallTo(() => outputBoundaryMock.Success()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => OutputPortMock.Success()).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
@@ -45,12 +45,12 @@
             A.CallTo(() => pollGatewayMock.GetAsync(pollId))
                 .Returns(poll);
 
-            IDeletePollOutputBoundary outputBoundaryStub = A.Fake<IDeletePollOutputBoundary>();
+            IDeletePollOutputPort OutputPortStub = A.Fake<IDeletePollOutputPort>();
 
             var useCase = new DeletePollUseCase(null, pollGatewayMock);
 
             // Act
-            await useCase.HandleAsync(pollId, outputBoundaryStub);
+            await useCase.HandleAsync(pollId, OutputPortStub);
 
             // Assert
             A.CallTo(() => pollGatewayMock.DeleteAsync(poll)).MustHaveHappenedOnceExactly();
@@ -68,16 +68,16 @@
             A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
-            IDeletePollOutputBoundary outputBoundaryMock = A.Fake<IDeletePollOutputBoundary>();
+            IDeletePollOutputPort OutputPortMock = A.Fake<IDeletePollOutputPort>();
 
             var useCase = new DeletePollUseCase(loggerServiceStub, pollGatewayStub);
 
             // Act
-            await useCase.HandleAsync(pollId, outputBoundaryMock);
+            await useCase.HandleAsync(pollId, OutputPortMock);
 
             // Assert
             A.CallTo(
-                () => outputBoundaryMock.NotFound(
+                () => OutputPortMock.NotFound(
                     A<string>.That.Contains(expectedResultMessage)))
                 .MustHaveHappenedOnceExactly();
         }
@@ -93,13 +93,13 @@
             A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
-            IDeletePollOutputBoundary outputBoundaryStub = A.Fake<IDeletePollOutputBoundary>();
+            IDeletePollOutputPort OutputPortStub = A.Fake<IDeletePollOutputPort>();
             ILoggerService<DeletePollUseCase> loggerServiceMock = A.Fake<ILoggerService<DeletePollUseCase>>();
 
             var useCase = new DeletePollUseCase(loggerServiceMock, pollGatewayStub);
 
             // Act
-            await useCase.HandleAsync(pollId, outputBoundaryStub);
+            await useCase.HandleAsync(pollId, OutputPortStub);
 
             // Assert
             A.CallTo(

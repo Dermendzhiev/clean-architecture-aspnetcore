@@ -1,6 +1,6 @@
-﻿namespace CleanArchitecture.Application.Boundaries.Vote
+﻿namespace CleanArchitecture.Application.Boundaries.UpdatePoll
 {
-    public interface IVoteOutputBoundary
+    public interface IUpdatePollOutputPort
     {
         void Success();
 

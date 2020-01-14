@@ -8,7 +8,7 @@
     using CleanArchitecture.Domain.Entities;
     using CleanArchitecture.Domain.SeedWork;
 
-    public class GetVotesUseCase : IGetVotesInputBoundary
+    public class GetVotesUseCase : IGetVotesInputPort
     {
         private readonly ILoggerService<GetVotesUseCase> loggerService;
         private readonly IPollGateway pollGateway;
@@ -19,7 +19,7 @@
             this.pollGateway = pollGateway;
         }
 
-        public async Task HandleAsync(int id, IGetVotesOutputBoundary output)
+        public async Task HandleAsync(int id, IGetVotesOutputPort output)
         {
             try
             {

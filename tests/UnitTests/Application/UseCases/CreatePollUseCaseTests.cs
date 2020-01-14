@@ -21,16 +21,16 @@
             IEmailSender emailSenderStub = A.Fake<IEmailSender>();
             IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
 
-            ICreatePollOutputBoundary outputBoundaryMock = A.Fake<ICreatePollOutputBoundary>();
+            ICreatePollOutputPort OutputPortMock = A.Fake<ICreatePollOutputPort>();
 
             var useCase = new CreatePollUseCase(null, emailSenderStub, pollGatewayStub);
             CreatePollInput input = GetValidCreatePollInput();
 
             // Act
-            await useCase.HandleAsync(input, outputBoundaryMock);
+            await useCase.HandleAsync(input, OutputPortMock);
 
             // Assert
-            A.CallTo(() => outputBoundaryMock.Success(
+            A.CallTo(() => OutputPortMock.Success(
                 A<CreatePollOutput>.That.Matches(
                     p => p.Id == 0)))
                 .MustHaveHappenedOnceExactly();
@@ -41,7 +41,7 @@
         {
             // Arrange
             IEmailSender emailSenderStub = A.Fake<IEmailSender>();
-            ICreatePollOutputBoundary outputBoundaryStub = A.Fake<ICreatePollOutputBoundary>();
+            ICreatePollOutputPort OutputPortStub = A.Fake<ICreatePollOutputPort>();
 
             IPollGateway pollGatewayMock = A.Fake<IPollGateway>();
 
@@ -49,7 +49,7 @@
             CreatePollInput input = GetValidCreatePollInput();
 
             // Act
-            await useCase.HandleAsync(input, outputBoundaryStub);
+            await useCase.HandleAsync(input, OutputPortStub);
 
             // Assert
             A.CallTo(() => pollGatewayMock.CreateAsync(
@@ -67,7 +67,7 @@
         {
             // Arrange
             IPollGateway pollGatewayStub = A.Fake<IPollGateway>();
-            ICreatePollOutputBoundary outputBoundaryStub = A.Fake<ICreatePollOutputBoundary>();
+            ICreatePollOutputPort OutputPortStub = A.Fake<ICreatePollOutputPort>();
 
             IEmailSender emailSenderMock = A.Fake<IEmailSender>();
 
@@ -75,7 +75,7 @@
             CreatePollInput input = GetValidCreatePollInput();
 
             // Act
-            await useCase.HandleAsync(input, outputBoundaryStub);
+            await useCase.HandleAsync(input, OutputPortStub);
 
             // Assert
             A.CallTo(() => emailSenderMock.SendAsync(
@@ -91,7 +91,7 @@
         {
             // Arrange
             const string expectedLogMessage = "{@excepton} occured when trying to create a poll with {@input}";
-            ICreatePollOutputBoundary outputBoundaryStub = A.Fake<ICreatePollOutputBoundary>();
+            ICreatePollOutputPort OutputPortStub = A.Fake<ICreatePollOutputPort>();
 
             ILoggerService<CreatePollUseCase> loggerServiceMock = A.Fake<ILoggerService<CreatePollUseCase>>();
             
@@ -99,7 +99,7 @@
             CreatePollInput input = GetInvalidCreatePollInput();
 
             // Act
-            await useCase.HandleAsync(input, outputBoundaryStub);
+            await useCase.HandleAsync(input, OutputPortStub);
 
             // Assert
             A.CallTo(
@@ -116,16 +116,16 @@
             // Arrange
             ILoggerService<CreatePollUseCase> loggerServiceStub = A.Fake<ILoggerService<CreatePollUseCase>>();
 
-            ICreatePollOutputBoundary outputBoundaryMock = A.Fake<ICreatePollOutputBoundary>();
+            ICreatePollOutputPort OutputPortMock = A.Fake<ICreatePollOutputPort>();
 
             var useCase = new CreatePollUseCase(loggerServiceStub, null, null);
             CreatePollInput input = GetInvalidCreatePollInput();
 
             // Act
-            await useCase.HandleAsync(input, outputBoundaryMock);
+            await useCase.HandleAsync(input, OutputPortMock);
 
             // Assert
-            A.CallTo(() => outputBoundaryMock.Error(
+            A.CallTo(() => OutputPortMock.Error(
                 A<string>.That.IsNotNull()))
                 .MustHaveHappenedOnceExactly();
         }

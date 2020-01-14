@@ -29,12 +29,12 @@
             services.AddScoped<IPollGateway, PollGateway>();
 
             // Use cases:
-            services.AddScoped<ICreatePollInputBoundary, CreatePollUseCase>();
-            services.AddScoped<IDeletePollIntputBoundary, DeletePollUseCase>();
-            services.AddScoped<IGetPollInputBoundary, GetPollUseCase>();
-            services.AddScoped<IGetVotesInputBoundary, GetVotesUseCase>();
-            services.AddScoped<IUpdatePollIntputBoundary, UpdatePollUseCase>();
-            services.AddScoped<IVoteInputBoundary, VoteUseCase>();
+            services.AddScoped<ICreatePollInputPort, CreatePollUseCase>();
+            services.AddScoped<IDeletePollIntputPort, DeletePollUseCase>();
+            services.AddScoped<IGetPollInputPort, GetPollUseCase>();
+            services.AddScoped<IGetVotesInputPort, GetVotesUseCase>();
+            services.AddScoped<IUpdatePollIntputPort, UpdatePollUseCase>();
+            services.AddScoped<IVoteInputPort, VoteUseCase>();
 
             // Presenters:
             services.AddScoped<CreatePollPresenter>();

@@ -27,16 +27,16 @@
             A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns(poll);
 
-            IGetPollOutputBoundary getPollOutputBoundaryMock = A.Fake<IGetPollOutputBoundary>();
+            IGetPollOutputPort getPollOutputPortMock = A.Fake<IGetPollOutputPort>();
 
             var useCase = new GetPollUseCase(null, pollGatewayStub);
 
             // Act
-            await useCase.HandleAsync(pollId, getPollOutputBoundaryMock);
+            await useCase.HandleAsync(pollId, getPollOutputPortMock);
 
             // Assert
             A.CallTo(
-                () => getPollOutputBoundaryMock.Success(
+                () => getPollOutputPortMock.Success(
                     A<GetPollOutput>.That.Matches(
                         m => m.Title == poll.Title 
                         && m.Note == poll.Note 
@@ -57,16 +57,16 @@
             A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
-            IGetPollOutputBoundary outputBoundaryMock = A.Fake<IGetPollOutputBoundary>();
+            IGetPollOutputPort OutputPortMock = A.Fake<IGetPollOutputPort>();
 
             var useCase = new GetPollUseCase(loggerServiceStub, pollGatewayStub);
 
             // Act
-            await useCase.HandleAsync(pollId, outputBoundaryMock);
+            await useCase.HandleAsync(pollId, OutputPortMock);
 
             // Assert
             A.CallTo(
-                () => outputBoundaryMock.NotFound(
+                () => OutputPortMock.NotFound(
                     A<string>.That.Contains(expectedResultMessage)))
                 .MustHaveHappenedOnceExactly();
         }
@@ -82,13 +82,13 @@
             A.CallTo(() => pollGatewayStub.GetAsync(pollId))
                 .Returns((Poll)null);
 
-            IGetPollOutputBoundary outputBoundaryStub = A.Fake<IGetPollOutputBoundary>();
+            IGetPollOutputPort OutputPortStub = A.Fake<IGetPollOutputPort>();
             ILoggerService<GetPollUseCase> loggerServiceMock = A.Fake<ILoggerService<GetPollUseCase>>();
 
             var useCase = new GetPollUseCase(loggerServiceMock, pollGatewayStub);
 
             // Act
-            await useCase.HandleAsync(pollId, outputBoundaryStub);
+            await useCase.HandleAsync(pollId, OutputPortStub);
 
             // Assert
             A.CallTo(

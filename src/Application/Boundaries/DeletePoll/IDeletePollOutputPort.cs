@@ -1,6 +1,6 @@
 ﻿namespace CleanArchitecture.Application.Boundaries.DeletePoll
 {
-    public interface IDeletePollOutputBoundary
+    public interface IDeletePollOutputPort
     {
         void Success();
 
